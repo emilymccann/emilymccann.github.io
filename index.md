@@ -4,6 +4,12 @@ You can use the [editor on GitHub](https://github.com/emilymccann/emilymccann.gi
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
+CS499 Code Review Video links:
+
+-Part 1: https://www.youtube.com/watch?v=CGCOhTVLu7g
+-Part 2: https://www.youtube.com/watch?v=VlytDm2GrSY
+-Part 3: https://www.youtube.com/watch?v=xwCvtkHlErM
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
