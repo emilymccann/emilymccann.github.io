@@ -10,9 +10,9 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 
 ## CS499 Code Review Video links:
 
-1. Part 1: [https://www.youtube.com/watch?v=CGCOhTVLu7g]
-2. Part 2: [https://www.youtube.com/watch?v=VlytDm2GrSY]
-3. Part 3: [https://www.youtube.com/watch?v=xwCvtkHlErM]
+1. Part 1: [https://www.youtube.com/watch?v=CGCOhTVLu7g](url)
+2. Part 2: [https://www.youtube.com/watch?v=VlytDm2GrSY](url)
+3. Part 3: [https://www.youtube.com/watch?v=xwCvtkHlErM](url)
 
 ### Jekyll Themes
 
