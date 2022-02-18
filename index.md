@@ -79,7 +79,107 @@ The [Weight Tracker Database file](./WeightTrackerDatabase.java) was modified to
     }
  ```
 
+In the [Login Activity file](./LoginActivity.java), a basic main administrator is created if one does not already exist: 
 
+```java
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
+        . . . 
+        
+        // Search for admin user and assign to mAdminUser
+        mAdminUser = mWeightTrackerDB.getUserByUsername("admin");
+
+        // create admin user if none exists
+        if (mAdminUser == null) {
+            createAdmin();
+        }
+
+    }
+
+    public void createAdmin() {
+        mAdminUser = new UserLogin();
+
+        mAdminUser.setUsername("admin");
+        mAdminUser.setPassword("admin123");
+        mAdminUser.setRole("administrator");
+
+        mWeightTrackerDB.addUser(mAdminUser);
+    }
+```
+
+Any user with a role of "administrator" has access to the admin icon in the app bar. Upon clicking this icon, the [Admin Activity](./AdminActivity.java) launches and allows the admin to edit or delete users. The list of active users are displayed in a [recycler view](./RecyclerViewAdapterAdmin.java) with edit and delete buttons. Only the main admin does not have these buttons so that other admins cannot edit or delete this user.
+
+```java
+        public void bind(UserLogin userLogin, int position) {
+
+            String role;
+
+            mUserLogin = userLogin;
+            mUsername = userLogin.getUsername();
+            role = userLogin.getRole();
+
+            mUsernameText.setText(mUsername);
+            mRoleText.setText(role);
+            mEditButton.setTag(mUsername);
+            mDeleteButton.setTag(mUsername);
+
+            // if the user is the main admin, set edit and delete buttons to invisible
+            //  so that other admins cannot delete or edit the main admin
+            if (mUsername.equals("admin")) {
+                mEditButton.setVisibility(View.INVISIBLE);
+                mDeleteButton.setVisibility(View.INVISIBLE);
+            }
+            // for all other users, set on click listeners for edit & delete buttons
+            else {
+                // OnClick for editing individual daily weight entries
+                mEditButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // intent to launch edit activity
+                        Intent intent = new Intent(mContext, EditUserActivity.class);
+                        intent.putExtra(EditUserActivity.EXTRA_USERNAME, mUsername);
+                        mContext.startActivity(intent);
+
+                        //After EditUserActivity finishes, get updated entry from db
+                        mUpdatedUser = mWeightTrackerDB.getUserByUsername(mUsername);
+
+
+                        int index = mUsers.indexOf(mUpdatedUser);
+                        if (index >= 0) {
+                            // Replace the user in the list
+                            mUsers.set(index, mUpdatedUser);
+
+                            // Notify adapter of daily weight update
+                            notifyItemChanged(index);
+                        }
+
+                    }
+                });
+
+                // OnClick for deleting individual users
+                mDeleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mWeightTrackerDB.deleteUser(mUsername);
+
+                        int index = mUsers.indexOf(mUserLogin);
+                        if (index >= 0) {
+                            // Remove the daily Weight
+                            mUsers.remove(index);
+
+                            // Notify adapter of daily Weight removal
+                            notifyItemRemoved(index);
+                        }
+                    }
+                });
+            }
+
+
+        }
+```
 
 
 ### Jekyll Themes
