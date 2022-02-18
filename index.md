@@ -13,7 +13,7 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 
 ## Enhancements 
 1. [Enhancement One](https://emilymccann.github.io/enhancement_one)
-2. [Weight Tracker Project File](docs/WeightTracker.zip)
+2. [Weight Tracker Project File](Weight Tracker.zip)
 
 
 ### Jekyll Themes
