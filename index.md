@@ -78,6 +78,35 @@ The [Weight Tracker Database file](./WeightTrackerDatabase.java) was modified to
         return outputString;
     }
  ```
+ 
+This file was also modified to allow for editing a user's role and deleting a user: 
+
+```java
+    // For updating a user's role
+    public void updateUser(UserLogin userLogin) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        String username = userLogin.getUsername();
+        // encrypt username to update correct user in db
+        String encryptedUsername = encryptDecrypt(username);
+
+        values.put(UserTable.COL_USERNAME, encryptedUsername);
+        values.put(UserTable.COL_ROLE, userLogin.getRole());
+        db.update(UserTable.TABLE, values,
+                UserTable.COL_USERNAME + " = ?", new String[] { encryptedUsername });
+    }
+
+    // For deleting a user
+    public void deleteUser(String username) {
+        // encrypt username to delete correct user in db
+        String encryptedUsername = encryptDecrypt(username);
+
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(UserTable.TABLE,
+                UserTable.COL_USERNAME + " = ?", new String[] { encryptedUsername });
+    }
+```
 
 In the [Login Activity file](./LoginActivity.java), a basic main administrator is created if one does not already exist: 
 
