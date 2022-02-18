@@ -55,6 +55,31 @@ I did meet the course objectives that I had planned to meet in module 1. I was a
 
 One  challenge I encountered was that, when I deleted a user, their daily weights would be removed from the database, but their goal weight would remain. I looked into the issue by inspecting the onCreate method in WeightTrackerDatabase.java. I noticed that the DailyWeightTable specified a  foreign key (username) and “on delete cascade.” I was missing this from my GoalWeightTable. Once I added it, the goal weights were removed upon user deletion in addition to the user’s daily weights. 
 
+###### Enhancement 3 Highlights
+
+The [Weight Tracker Database file](./WeightTrackerDatabase.java) was modified to use XOR encryption on the usernames and passwords stored in the Users table. The following method is used to encrypt and decrypt usernames and passwords when performing various operations (adding users, finding and authenticating users, obtaining users' data, etc.).
+
+```java
+    //to encrypt a user's username and pw in the database
+    //and also to decrypt username when getting data from the database
+    public String encryptDecrypt(String inputString) {
+
+        char key = 'x';
+        int inputLength = inputString.length();
+
+        assert(inputLength > 0);  //make sure there is data in the input string
+
+        String outputString = "";
+
+        for (int i = 0; i < inputLength; i++){
+            outputString = outputString + ((char) (inputString.charAt(i) ^ key));
+         }
+
+        return outputString;
+    }
+ ```
+
+
 
 
 ### Jekyll Themes
