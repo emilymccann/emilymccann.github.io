@@ -38,6 +38,148 @@ I did meet the course outcomes with this enhancement because I figured out a way
 
 One challenge I faced while making this enhancement was that, for users who wish to maintain their weight, I could not use the “==“ comparator to check for equality between the goal weight and the daily weight. I could not figure out why this didn’t work for a long time, because the values I was comparing were Short type and not strings. I then tried “.equals” and that worked. I learned that the “==“ checks to see if the items being compared are actually the same object. This was not the case in my application, which is why it was not working. 
 
+###### Enhancement Two Highlights
+
+In the [Goal Weight Activity file](./GoalWeightActivity.java), radio buttons were added to allow the user to select whether they are attempting to lose, gain, or maintain weight. When the goal weight is saved, the "receiveCongrats" variable is set to "yes" so that when a user first reaches their goal weight, the app will show them a dialog congratulating them.
+
+```java
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+
+        switch(view.getId()) {
+            case R.id.radioButtonLose:
+                if (checked){
+                    mGoal = "lose";
+                }
+                break;
+            case R.id.radioButtonGain:
+                if (checked){
+                    mGoal = "gain";
+                }
+                break;
+            case R.id.radioButtonMaintain:
+                if (checked){
+                    mGoal = "maintain";
+                }
+                break;
+            default:
+                mGoal = "";
+                break;
+        }
+    }
+
+    // Save user's entered goal weight
+    public void onGoalSaveClick(View view) {
+        String goalWeightString = mGoalInput.getText().toString();
+        Short goalWeightShort = Short.parseShort(goalWeightString);
+
+        if (mGoalWeight == null) {
+            // Add new Goal Weight if none exists for user - with notifications turned on
+            mGoalWeight = new GoalWeight(goalWeightShort, mUsername, mGoal, "yes");
+            mWeightTrackerDB.addGoalWeight(mGoalWeight);
+        } else {
+            // Update Goal Weight if user already has one
+            mGoalWeight.setGoalWeight(goalWeightShort);
+            mGoalWeight.setGoal(mGoal);
+            mGoalWeight.setCongrats("yes"); //turn on notifications after goal weight is updated
+            mWeightTrackerDB.updateGoalWeight(mGoalWeight);
+        }
+
+        finish();
+    }
+```
+
+After a user enters a daily weight, the [Daily Weight Activity](./DailyWeightActivity.java) sends a result code back to [Display Data Activity](./DisplayDataActivity.java). If the result code is OK, Display Data Activity calls the checkWeight() method. 
+
+```java
+    ActivityResultLauncher<Intent> dailyWtActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+
+                        mGoalWeight = mWeightTrackerDB.getGoalWt(mUsername);
+                        String congrats = mGoalWeight.getCongrats();
+
+                        if (congrats.equals("yes")) {
+                            //when DailyWeightActivity ends, check to see if newest daily weight equals goal weight
+                            checkWeight();
+                        }
+                    }
+                }
+            });
+```
+
+The checkWeight() method checks the last entered daily weight and compares it to the user's goal weight. The type of comparison is based on whether the user's goal is to lose, gain, or maintain weight. If the goal weight has been reached or surpassed, onGoalReached() is called, which shows the congratulations dialog and sets receiveCongrats to "no" so that future daily weights do not continue to set off the dialog notification (this variable is set to "yes" again when a user changes their goal weight). 
+
+```java
+    public void onGoalReached() {
+        //show dialog
+        FragmentManager manager = getSupportFragmentManager();
+        GoalReachedDialogFrag dialog = new GoalReachedDialogFrag();
+        dialog.show(manager, "goalReached");
+
+        //turn notification off
+        mGoalWeight.setCongrats("no");
+        mWeightTrackerDB.updateGoalWeight(mGoalWeight);
+    }
+
+    // check for goal weight reached; will show dialog if goal weight is reached
+    public void checkWeight() {
+        Short dailyWeight;
+        Short goalWeight;
+        String goal;
+        List<DailyWeight> dailyWeights;
+
+        mGoalWeight = mWeightTrackerDB.getGoalWt(mUsername);
+        goal = mGoalWeight.getGoal();
+        dailyWeights = loadDailyWeights(); //added - array was empty before
+
+        if (dailyWeights.size() != 0) {
+            DailyWeight dailyWeightObj;
+
+            //get last daily weight
+            dailyWeightObj = dailyWeights.get(dailyWeights.size()-1);
+
+            dailyWeight = dailyWeightObj.getDailyWeight();
+
+            goalWeight = mGoalWeight.getGoalWeight();
+
+            if (goal.equals("lose") && dailyWeight <= goalWeight) {    //fixed - before had mGoalWeight in (), so it was comparing daily weight string to an object
+                onGoalReached();
+            }
+
+            if (goal.equals("gain") && dailyWeight >= goalWeight) {    //fixed - before had mGoalWeight in (), so it was comparing daily weight string to an object
+                onGoalReached();
+            }
+
+            if (goal.equals("maintain") && dailyWeight.equals(goalWeight)) {    //fixed - before had mGoalWeight in (), so it was comparing daily weight string to an object
+                onGoalReached();
+            }
+
+        }
+
+    }
+```
+
+The dialog fragment is generated by the [following](./GoalReachedDialogFrag.java):
+
+```java
+public class GoalReachedDialogFrag extends DialogFragment {
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.congrats);
+        builder.setMessage(R.string.goal_reached);
+        builder.setPositiveButton(R.string.ok, null);
+        return builder.create();
+    }
+}
+```
+
+
 
 
 ## Enhancement Three - Databases
