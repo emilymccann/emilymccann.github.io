@@ -28,7 +28,51 @@ To resolve the SMS notification issue, I had to remove all SMS notification piec
 
 ###### Enhancement One Highlights
 
-After a user enters a daily weight, the [Daily Weight Activity](./DailyWeightActivity.java) sends a result code back to [Display Data Activity](./DisplayDataActivity.java). If the result code is OK, Display Data Activity calls the checkWeight() method. 
+Correcting the recycler view error consisted of updating/deleting not only the user's daily weights in the database, but also in the list used to generate the recycler view. This is shown in the [Recycler View file](./RecyclerViewAdapter.java):
+
+```java
+            // OnClick for editing individual daily weight entries
+            mEditButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // intent to launch edit activity
+                    Intent intent = new Intent(mContext, EditDailyWeightActivity.class);
+                    intent.putExtra(EditDailyWeightActivity.EXTRA_DAILY_WT_ID, mId);
+                    mContext.startActivity(intent);
+
+                    //After EditDailyWeightActivity finishes, get updated entry from db
+                    mUpdatedDailyWeight = mWeightTrackerDB.getDailyWeight(mId);
+
+                    int index = mDailyWeights.indexOf(mDailyWeight);
+                    if (index >= 0) {
+                        // Replace the daily weight in the list
+                        mDailyWeights.set(index, mUpdatedDailyWeight);
+
+                        // Notify adapter of daily weight update
+                        notifyItemChanged(index);
+                    }
+
+                }
+            });
+
+            // OnClick for deleting individual daily weight entries
+            mDeleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mWeightTrackerDB.deleteDailyWeight(mId);
+                    int index = mDailyWeights.indexOf(mDailyWeight);
+                    if (index >= 0) {
+                        // Remove the daily Weight
+                        mDailyWeights.remove(index);
+
+                        // Notify adapter of daily Weight removal
+                        notifyItemRemoved(index);
+                    }
+                }
+                });
+```
+
+To replace the SMS notification feature, all references to SMS were removed and a dialog fragment feature was added. After a user enters a daily weight, the [Daily Weight Activity](./DailyWeightActivity.java) sends a result code back to [Display Data Activity](./DisplayDataActivity.java). If the result code is OK, Display Data Activity calls the checkWeight() method. 
 
 ```java
     ActivityResultLauncher<Intent> dailyWtActivityResultLauncher = registerForActivityResult(
