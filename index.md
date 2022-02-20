@@ -14,15 +14,15 @@ Considering the improvements made to the project and the added emphasis on secur
 
 ## Index:
 
-1. Code Review Videos
-2. Enhancement One
-    * Narrative
+1. [Code Review Videos](https://github.com/emilymccann/emilymccann.github.io/blob/main/index.md#cs499-code-review-video-links)
+2. [Enhancement One](https://github.com/emilymccann/emilymccann.github.io/blob/main/index.md#enhancement-one---software-design-and-engineering)
+    * [Narrative](https://github.com/emilymccann/emilymccann.github.io/blob/main/index.md#narrative)
     * [Highlights](https://github.com/emilymccann/emilymccann.github.io/blob/main/index.md#enhancement-one-highlights)
-4. Enhancement Two
-    * Narrative
+4. [Enhancement Two](https://github.com/emilymccann/emilymccann.github.io/blob/main/index.md#enhancement-two---algorithms-and-data-structures)
+    * [Narrative](https://github.com/emilymccann/emilymccann.github.io/blob/main/index.md#narrative-1)
     * [Highlights](https://github.com/emilymccann/emilymccann.github.io/blob/main/index.md#enhancement-two-highlights)
-6. Enhancement Three
-    * Narrative
+6. [Enhancement Three](https://github.com/emilymccann/emilymccann.github.io/blob/main/index.md#enhancement-three---databases)
+    * [Narrative](https://github.com/emilymccann/emilymccann.github.io/blob/main/index.md#narrative-2)
     * [Highlights](https://github.com/emilymccann/emilymccann.github.io/blob/main/index.md#enhancement-three-highlights)
 	
 
