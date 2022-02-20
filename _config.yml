@@ -1,3 +1,4 @@
 theme: jekyll-theme-modernist
 title: Welcome to emilymccann's homepage!
 description: This is my page for SNHU CS499.
+show_downloads: true
