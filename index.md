@@ -10,7 +10,7 @@ This built upon the improvements made in Enhancement One because there were addi
 
 Several other improvements were made during the course of this project to further enhance the security of the application. For instance, user input into the application is restricted so that there is only a 12 character limit for usernames and passwords, and daily weight and goal weights are only allowed a 3 digit maximum to prevent overflow. When entering a date for daily weights, users must choose a date from a date picker which further prevents the user from entering malicious code. Additionally, the LoginActivity.java file was improved so that the user must enter both a username and password to log in and create an account. Previously, the user was only required to enter a password for the buttons to be enabled. In this project, an If-Else block was added to check that both fields were not empty before allowing the user to proceed. Further improvements were made by converting several member variables to local variables when possible throughout the entire project to ensure that these variables would be safe from being accidentally overwritten by different methods. The Weight Tracker database always had defense against SQL injection attacks by using WHERE clause substitution arguments in its operations. 
 
-Considering the improvements made to the project and the added emphasis on security, this project successfully shows my strengths in software design/engineering, algorithms and data structures, and databases. The skills of each category are demonstrated in the following sections, preceded by an in-depth code review that was recorded prior to making any improvements. The entire project file can be downloaded [here](./Weight Tracker.zip).
+Considering the improvements made to the project and the added emphasis on security, this project successfully shows my strengths in software design/engineering, algorithms and data structures, and databases. The skills of each category are demonstrated in the following sections, preceded by an in-depth code review that was recorded prior to making any improvements. The entire project file can be downloaded [here](./Weight Tracker.zip)
 	
 
 
@@ -23,7 +23,7 @@ Considering the improvements made to the project and the added emphasis on secur
 
 
 ## Enhancement One - Software Design and Engineering
-###### Narrative
+### Narrative
 
 The artifact I enhanced for this category was the mobile application I created in the SNHU course CS360, in June 2021. This application is a weight-tracking app which allows users to create an account, log in, enter a goal weight, and enter daily weights. The user is notified once they reach their goal weight. I selected this item to include in my portfolio because it incorporated all 3 categories that are part of the capstone final project. The application shows my software design/engineering skills because it is well modularized and there is efficient communication across different activities. The application initially did not function correctly in some ways, and I resolved those issues for this milestone. One issue was that the recycler view did not update correctly when an attempt was made to either edit or delete a daily weight entry. The second issue was that the SMS notification feature did not work correctly, and I wanted to replace this with a dialog notification. 
 
@@ -32,7 +32,7 @@ I did meet the course objectives I planned to meet as I was successful in resolv
 To resolve the SMS notification issue, I had to remove all SMS notification pieces of code and replace them with a dialog fragment. The app still failed to generate a dialog when the goal weight was reached, and it took me some time to figure out why. I was using the startActivityForResult method which was deprecated. Once I updated the app to use the ActivityResultLauncher, I was get data back from the launched activity and then call the checkWeight() method to see if the goal weight had been reached. Another change I made to the application was to add if/else checks to the LoginActivity to make sure the user enters both a username and password before attempting to login or create a new account. In resolving these issues, I was able to show that I can pinpoint issues in code and utilize my engineering and design skills to solve them.
 
 
-###### Enhancement One Highlights
+### Enhancement One Highlights
 
 Correcting the recycler view error consisted of updating/deleting not only the user's daily weights in the database, but also in the list used to generate the recycler view. This is shown in the [Recycler View file](./RecyclerViewAdapter.java):
 
@@ -121,7 +121,7 @@ public class GoalReachedDialogFrag extends DialogFragment {
 
 
 ## Enhancement Two - Algorithms and Data Structures
-###### Narrative
+### Narrative
 
 The artifact I enhanced for this category was the mobile application I created in the SNHU course CS360, in June 2021. This application is a weight-tracking app which allows users to create an account, log in, enter a goal weight, enter daily weights, and be notified once they reach their goal weight. I selected this item to include in my portfolio because it incorporated all 3 categories that are part of the capstone final project. I was also interested in making improvements in 3 different areas to enhance the overall project. The application shows my skills in algorithms and data structure because it uses an algorithm to check if the goal weight has been reached, and it utilizes several different objects (user login, goal weight, and daily weight) which are data structures. For for this milestone, I improved the artifact by adjusting the algorithm that checks if the goal weight has been reached by also checking to see if the goal weight had been surpassed. This depended on whether the user was trying to lose or gain weight, so I added an option to GoalWeightActivity for the user to select whether they are trying to lose, gain, or maintain weight. 
 
@@ -133,7 +133,7 @@ One challenge I faced while making this enhancement was that, for users who wish
 
 
 
-###### Enhancement Two Highlights
+### Enhancement Two Highlights
 
 In the [Goal Weight Activity file](./GoalWeightActivity.java), radio buttons were added to allow the user to select whether they are attempting to lose, gain, or maintain weight. When the goal weight is saved, the "receiveCongrats" variable is set to "yes" so that when a user first reaches their goal weight, the app will show them a dialog congratulating them.
 
@@ -238,7 +238,7 @@ The checkWeight() method checks the last entered daily weight and compares it to
 
 
 ## Enhancement Three - Databases
-###### Narrative
+### Narrative
 
 The artifact I enhanced for this milestone was the mobile application I created in the SNHU course CS360, in June 2021. This application is a weight-tracking app which allows users to create an account, log in, enter a goal weight, enter daily weights, and be notified once they reach their goal weight. I selected this item to include in my portfolio because it incorporated all 3 categories that are part of the capstone final project. I was also interested in making improvements in 3 different areas to enhance the overall project, and I also knew when I first created it that there were several issues I had to fix. The application shows my skills in databases because it uses a SQLite database to store user login info, users’ goal weights, and users’ daily weights. 
 
@@ -252,7 +252,7 @@ I did meet the course objectives that I had planned to meet in module 1. I was a
 
 One  challenge I encountered was that, when I deleted a user, their daily weights would be removed from the database, but their goal weight would remain. I looked into the issue by inspecting the onCreate method in WeightTrackerDatabase.java. I noticed that the DailyWeightTable specified a  foreign key (username) and “on delete cascade.” I was missing this from my GoalWeightTable. Once I added it, the goal weights were removed upon user deletion in addition to the user’s daily weights. 
 
-###### Enhancement 3 Highlights
+### Enhancement 3 Highlights
 
 The [Weight Tracker Database file](./WeightTrackerDatabase.java) was modified to use XOR encryption on the usernames and passwords stored in the Users table. The following method is used to encrypt and decrypt usernames and passwords when performing various operations (adding users, finding and authenticating users, obtaining users' data, etc.).
 
