@@ -184,7 +184,7 @@ In the [Goal Weight Activity file](./GoalWeightActivity.java), radio buttons wer
     }
 ```
 
-The checkWeight() method checks the last entered daily weight and compares it to the user's goal weight. The type of comparison is based on whether the user's goal is to lose, gain, or maintain weight. If the goal weight has been reached or surpassed, onGoalReached() is called, which shows the congratulations dialog and sets receiveCongrats to "no" as described in Enhancement One.
+In the [Display Data Activity](./DisplayDataActivity.java), the checkWeight() method checks the last entered daily weight and compares it to the user's goal weight. The type of comparison is based on whether the user's goal is to lose, gain, or maintain weight. If the goal weight has been reached or surpassed, onGoalReached() is called, which shows the congratulations dialog and sets receiveCongrats to "no" as described in Enhancement One.
 
 ```java
     public void onGoalReached() {
